@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/ic_radio_black_24dp"
+            android:title="News" />
+        <item
+            android:id="@+id/nav_videos"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Videos" />
+        <item
+            android:id="@+id/nav_podcast"
+            android:icon="@drawable/ic_library_music_black_24dp"
+            android:title="Podcast" />
+
+        <item
+            android:id="@+id/nav_weather"
+            android:icon="@drawable/ic_filter_drama_black_24dp"
+            android:title="Weather" />
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_feedback"
+                android:icon="@drawable/ic_feedback_black_24dp"
+                android:title="feedback" />
+            <item
+                android:id="@+id/nav_about_us"
+                android:icon="@drawable/ic_contacts_black_24dp"
+                android:title="about us" />
+        </menu>
+    </item>
+
+</menu>
