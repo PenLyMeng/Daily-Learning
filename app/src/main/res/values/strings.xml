@@ -2,7 +2,7 @@
     <string name="app_name">Daily Learning</string>
 
     <string name="api_key">966e082575dd48199ff5cca18a80e306</string>
-    <string name="base_url">https://newsapi.org/v2/</string>
+    <string name="base_url_news">https://newsapi.org/v2/</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -12,6 +12,9 @@ import retrofit2.http.Query;
 public interface CoreService {
 
     @GET("sources")
-    Call<SourceNew> listRepos(@Query("apiKey") String apiKey);
+    Call<SourceNew> listSourceNews(@Query("apiKey") String apiKey);
+
+
+
 
 }
