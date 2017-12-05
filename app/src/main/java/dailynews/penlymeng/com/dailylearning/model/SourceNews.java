@@ -1,18 +1,19 @@
 package dailynews.penlymeng.com.dailylearning.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by l.pen on 12/2/2017.
  */
 
-public class SourceNew {
+public class SourceNews {
 
 
     @com.google.gson.annotations.SerializedName("status")
     public String status;
     @com.google.gson.annotations.SerializedName("sources")
-    public List<Sources> sources;
+    public List<Sources> sources = new ArrayList<>();
 
     public static class Sources {
         @com.google.gson.annotations.SerializedName("id")

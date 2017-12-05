@@ -1,6 +1,7 @@
 package dailynews.penlymeng.com.dailylearning.service;
 
-import dailynews.penlymeng.com.dailylearning.model.SourceNew;
+import dailynews.penlymeng.com.dailylearning.model.SourceNews;
+import dailynews.penlymeng.com.dailylearning.model.TopNews;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -12,7 +13,10 @@ import retrofit2.http.Query;
 public interface CoreService {
 
     @GET("sources")
-    Call<SourceNew> listSourceNews(@Query("apiKey") String apiKey);
+    Call<SourceNews> listSourceNews(@Query("apiKey") String apiKey);
+
+    @GET("top-headlines?sources=bbc-news")
+    Call<TopNews> listTopNews(@Query("apiKey") String apiKey);
 
 
 

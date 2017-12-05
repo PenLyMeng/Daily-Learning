@@ -1,11 +1,11 @@
 package dailynews.penlymeng.com.dailylearning;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,16 +15,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
 
 import dailynews.penlymeng.com.dailylearning.adapter.MainViewPagerAdapter;
-import dailynews.penlymeng.com.dailylearning.model.SourceNew;
-import dailynews.penlymeng.com.dailylearning.service.CoreService;
-import dailynews.penlymeng.com.dailylearning.service.ServiceGenerator;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -73,12 +69,15 @@ public class MainActivity extends AppCompatActivity
                 switch (tab.getPosition()){
                     case 0:
                         tab.setIcon(R.drawable.ic_fiber_new_pink_a200_24dp);
+                        tab.setText("Recent News");
                         break;
                     case 1:
                         tab.setIcon(R.drawable.ic_fiber_pin_pink_a200_24dp);
+                        tab.setText("Top News");
                         break;
                     case 2:
                         tab.setIcon(R.drawable.ic_dashboard_pink_a200_24dp);
+                        tab.setText("Source News");
                         break;
 
                 }
@@ -89,12 +88,18 @@ public class MainActivity extends AppCompatActivity
                 switch (tab.getPosition()){
                     case 0:
                         tab.setIcon(R.drawable.ic_fiber_new_black_24dp);
+                        tab.setText("");
+
                         break;
                     case 1:
                         tab.setIcon(R.drawable.ic_fiber_pin_black_24dp);
+                        tab.setText("");
+
                         break;
                     case 2:
                         tab.setIcon(R.drawable.ic_dashboard_black_24dp);
+                        tab.setText("");
+
                         break;
 
                 }
@@ -107,21 +112,6 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        ServiceGenerator.setBaseUrl(getResources().getString(R.string.base_url_news));
-        CoreService coreService = ServiceGenerator.createService(CoreService.class);
-
-
-        coreService.listSourceNews(getString(R.string.api_key)).enqueue(new Callback<SourceNew>() {
-            @Override
-            public void onResponse(Call<SourceNew> call, Response<SourceNew> response) {
-                Log.d(TAG, "onResponse: " + response.body().sources.size());
-            }
-
-            @Override
-            public void onFailure(Call<SourceNew> call, Throwable t) {
-                Log.d(TAG, "onError: " + t.getMessage());
-            }
-        });
 
 
 

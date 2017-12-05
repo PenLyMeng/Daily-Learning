@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    android:layout_marginTop="8dp"
+    card_view:cardElevation="6dp">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <RelativeLayout
+            android:id="@+id/layout_thumbnail_container"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+            <ImageView
+                android:scaleType="fitXY"
+                android:src="@drawable/img_gift"
+                android:id="@+id/img_news_logo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_margin="8dp"
+                android:alpha="0.7"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/txt_news_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="Sometimes the Best Technology is No Technology"
+                android:textSize="16sp"
+                android:background="#e6e0e0" />
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:id="@+id/txt_news_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_thumbnail_container"
+            android:layout_marginTop="6dp"
+            android:alpha="0.7"
+            android:maxLines="2"
+            android:scrollHorizontally="true"
+            android:text="Use BBC News for up-to-the-minute news, breaking news, video, audio and feature stories. BBC News provides trusted World and UK news as well as local and regional perspectives. Also entertainment, business, science, technology and health news." />
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>
