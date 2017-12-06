@@ -1,11 +1,19 @@
 package dailynews.penlymeng.com.dailylearning;
 
+import android.content.Intent;
+
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,14 +24,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import org.rm3l.maoni.Maoni;
+
 import dailynews.penlymeng.com.dailylearning.adapter.MainViewPagerAdapter;
+import dailynews.penlymeng.com.dailylearning.callback.ListNewsItemListener;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,SensorEventListener,ListNewsItemListener {
 
 
     public static final String TAG = "ooo";
@@ -32,7 +44,11 @@ public class MainActivity extends AppCompatActivity
 
     ViewPager mViewPagerContainer;
     TabLayout tabLayout;
+    SensorManager mSensorManager;
 
+    private long lastUpdate;
+
+    FloatingActionButton mFloatingActionButton;
 
 
     @Override
@@ -43,12 +59,16 @@ public class MainActivity extends AppCompatActivity
 
         initViews();
 
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        lastUpdate = System.currentTimeMillis();
+
+
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
         mViewPagerContainer.setAdapter(mainViewPagerAdapter);
 
         tabLayout.addTab(tabLayout.newTab().setText("Recent News"));
-        tabLayout.addTab(tabLayout.newTab().setText("Top News"));
-        tabLayout.addTab(tabLayout.newTab().setText("Source News"));
+        tabLayout.addTab(tabLayout.newTab().setText(""));
+        tabLayout.addTab(tabLayout.newTab().setText(""));
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_fiber_new_pink_a200_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_fiber_pin_black_24dp);
@@ -113,7 +133,15 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Maoni.Builder(MainActivity.this, "Penlymeng")
+                        .withDefaultToEmailAddress("menglovegood@gmail.com")
+                        .build()
+                        .start(MainActivity.this);
+            }
+        });
 
 
 
@@ -121,21 +149,67 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    private void getAccelerometer(SensorEvent event) {
+         float[] values = event.values;
+        // Movement
+        float x = values[0];
+        float y = values[1];
+        float z = values[2];
+
+        float accelationSquareRoot = (x * x + y * y + z * z)
+                / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
+        long actualTime = event.timestamp;
+        if (accelationSquareRoot >= 2) //
+        {
+
+            Log.d("time space", actualTime - lastUpdate + " ");
+
+            if (actualTime - lastUpdate > 10000) {
+                lastUpdate = actualTime;
+                Toast.makeText(this, "Device was shuffed", Toast.LENGTH_SHORT)
+                        .show();
+             }
+
+
+
+
+       /*new Maoni.Builder(this, "Penlymeng")
+                    .withDefaultToEmailAddress("menglovegood@gmail.com")
+                    .build()
+                    .start(MainActivity.this); */
+
+        }
+
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }
 
     public void initViews(){
+
+        mFloatingActionButton = findViewById(R.id.fab_email);
         mViewPagerContainer = findViewById(R.id.viewpager);
+        mViewPagerContainer.setOffscreenPageLimit(2);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -199,13 +273,36 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.nav_weather) {
 
         }else if (id == R.id.nav_feedback) {
-
+            new Maoni.Builder(this, "Penlymeng")
+            .withDefaultToEmailAddress("menglovegood@gmail.com")
+                    .build()
+                    .start(MainActivity.this);
         } else if (id == R.id.nav_about_us) {
-
+            startActivity(new Intent(this,AboutUsActivity.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            getAccelerometer(event);
+        }
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    @Override
+    public void onNewsClickListener(int position) {
+        Toast.makeText(this, "position " + position, Toast.LENGTH_SHORT)
+                .show();
     }
 }

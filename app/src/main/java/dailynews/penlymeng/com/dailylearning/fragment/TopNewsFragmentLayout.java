@@ -4,20 +4,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
 
 import dailynews.penlymeng.com.dailylearning.R;
-import dailynews.penlymeng.com.dailylearning.adapter.SourceNewsAdapter;
 import dailynews.penlymeng.com.dailylearning.adapter.TopNewsAdapter;
-import dailynews.penlymeng.com.dailylearning.model.SourceNews;
-import dailynews.penlymeng.com.dailylearning.model.TopNews;
+import dailynews.penlymeng.com.dailylearning.model.News;
 import dailynews.penlymeng.com.dailylearning.service.CoreService;
 import dailynews.penlymeng.com.dailylearning.service.ServiceGenerator;
 import jp.wasabeef.recyclerview.animators.adapters.AnimationAdapter;
@@ -37,7 +34,7 @@ public class TopNewsFragmentLayout extends Fragment {
     RecyclerView mRecyclerView;
     TopNewsAdapter mTopNewsAdapter;
     AnimationAdapter animatorAdapter;
-    TopNews topNews;
+    News news;
 
 
     @Nullable
@@ -50,28 +47,28 @@ public class TopNewsFragmentLayout extends Fragment {
         ServiceGenerator.setBaseUrl(getResources().getString(R.string.base_url_news));
         CoreService coreService = ServiceGenerator.createService(CoreService.class);
 
-        topNews = new TopNews();
-        mTopNewsAdapter = new TopNewsAdapter(topNews);
+        news = new News();
+        mTopNewsAdapter = new TopNewsAdapter(news);
 
         animatorAdapter = new ScaleInAnimationAdapter(mTopNewsAdapter);
         animatorAdapter.setDuration(500);
         animatorAdapter.setFirstOnly(false);
-        animatorAdapter.setInterpolator(new DecelerateInterpolator());
+        animatorAdapter.setInterpolator(new AnticipateOvershootInterpolator());
 
 
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context,2));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(animatorAdapter);
 
-        coreService.listTopNews(getString(R.string.api_key)).enqueue(new Callback<TopNews>() {
+        coreService.listTopNews(getString(R.string.api_key)).enqueue(new Callback<News>() {
             @Override
-            public void onResponse(Call<TopNews> call, Response<TopNews> response) {
+            public void onResponse(Call<News> call, Response<News> response) {
                 if(response.body().status.equalsIgnoreCase("ok")){
-                    topNews = response.body();
-                    mTopNewsAdapter.setDataSource(topNews);
+                    news = response.body();
+                    mTopNewsAdapter.setDataSource(news);
                     animatorAdapter.notifyDataSetChanged();
-                    Log.d(TAG, "onResponse size 1: " + topNews.articles.size());
+                    Log.d(TAG, "onResponse size 1: " + news.articles.size());
                     Log.d(TAG, "onResponse size 2: " + mTopNewsAdapter.getItemCount());
                 }
 
@@ -79,7 +76,7 @@ public class TopNewsFragmentLayout extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<TopNews> call, Throwable t) {
+            public void onFailure(Call<News> call, Throwable t) {
                 Log.d(TAG, "onError: " + t.getMessage());
             }
         });

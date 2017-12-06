@@ -18,7 +18,7 @@
         <RelativeLayout
             android:id="@+id/layout_thumbnail_container"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="250dp">
             <ImageView
                 android:scaleType="fitXY"
                 android:src="@drawable/img_gift"
@@ -37,7 +37,8 @@
                 android:layout_alignParentBottom="true"
                 android:text="Sometimes the Best Technology is No Technology"
                 android:textSize="16sp"
-                android:background="#e6e0e0" />
+                android:textStyle="bold"
+                android:background="#ece8e8" />
         </RelativeLayout>
 
 
@@ -48,10 +49,61 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_thumbnail_container"
             android:layout_marginTop="6dp"
-            android:alpha="0.7"
             android:maxLines="2"
             android:scrollHorizontally="true"
             android:text="Use BBC News for up-to-the-minute news, breaking news, video, audio and feature stories. BBC News provides trusted World and UK news as well as local and regional perspectives. Also entertainment, business, science, technology and health news." />
+
+        <View
+            android:layout_marginTop="4dp"
+            android:id="@+id/line_seperator"
+            android:layout_below="@+id/txt_news_desc"
+            android:alpha="0.5"
+            android:text="published date: "
+            android:background="#8e8c8c"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+
+        <RelativeLayout
+            android:layout_marginTop="4dp"
+            android:layout_below="@+id/line_seperator"
+
+            android:id="@+id/bottom_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/txt_date_label"
+                android:alpha="0.7"
+                android:text="published date: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/txt_date_label"
+                android:id="@+id/txt_date"
+                android:alpha="0.7"
+                android:text="28/09/1995"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_marginRight="8dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/img_share"
+                android:alpha="0.7"
+                android:src="@drawable/ic_share_blue_grey_300_24dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="22dp"
+                android:layout_height="22dp" />
+
+
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

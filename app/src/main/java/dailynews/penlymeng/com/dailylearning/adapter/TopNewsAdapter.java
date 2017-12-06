@@ -11,7 +11,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import dailynews.penlymeng.com.dailylearning.R;
-import dailynews.penlymeng.com.dailylearning.model.TopNews;
+import dailynews.penlymeng.com.dailylearning.callback.ListNewsItemListener;
+import dailynews.penlymeng.com.dailylearning.model.News;
 
 /**
  * Created by l.pen on 12/5/2017.
@@ -19,16 +20,16 @@ import dailynews.penlymeng.com.dailylearning.model.TopNews;
 
 public class TopNewsAdapter  extends RecyclerView.Adapter<TopNewsAdapter.TopNewsViewHolder> {
 
-    TopNews topNews;
+    News news;
     Context context;
 
-    public TopNewsAdapter(TopNews topNews){
-        this.topNews = topNews;
+    public TopNewsAdapter(News news){
+        this.news = news;
     }
 
 
-    public void setDataSource(TopNews topNews){
-        this.topNews = topNews;
+    public void setDataSource(News news){
+        this.news = news;
     }
 
     @Override
@@ -41,16 +42,17 @@ public class TopNewsAdapter  extends RecyclerView.Adapter<TopNewsAdapter.TopNews
 
     @Override
     public void onBindViewHolder(TopNewsViewHolder holder, int position) {
-        TopNews.Articles articles = topNews.articles.get(position);
+        News.Articles articles = news.articles.get(position);
 
         Picasso.with(context)
                 .load(articles.urlToImage)
-                .placeholder(R.drawable.img_gift)
-                .error(R.drawable.img_gift)
+                .placeholder(R.drawable.loading_gif)
+                .error(R.drawable.no_image_available)
                 .into( holder.imgArticleLogo);
 
         holder.txtArticleTitle.setText(articles.title);
         holder.txtArticleDesc.setText(articles.description);
+        holder.txtDate.setText(articles.publishedAt);
 
 
 
@@ -58,7 +60,7 @@ public class TopNewsAdapter  extends RecyclerView.Adapter<TopNewsAdapter.TopNews
 
     @Override
     public int getItemCount() {
-        return topNews.articles.size();
+        return news.articles.size();
     }
 
 
@@ -70,13 +72,23 @@ public class TopNewsAdapter  extends RecyclerView.Adapter<TopNewsAdapter.TopNews
         ImageView imgArticleLogo;
         TextView txtArticleTitle;
         TextView txtArticleDesc;
+        TextView txtDate;
 
-        public TopNewsViewHolder(View itemView) {
+
+        public TopNewsViewHolder(final View itemView) {
             super(itemView);
 
             imgArticleLogo = itemView.findViewById(R.id.img_news_logo);
             txtArticleTitle = itemView.findViewById(R.id.txt_news_name);
             txtArticleDesc = itemView.findViewById(R.id.txt_news_desc);
+            txtDate = itemView.findViewById(R.id.txt_date);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ListNewsItemListener)itemView.getContext()).onNewsClickListener(getAdapterPosition());
+                }
+            });
 
         }
     }

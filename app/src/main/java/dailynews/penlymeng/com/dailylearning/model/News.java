@@ -9,7 +9,7 @@ import java.util.List;
  * Created by l.pen on 12/5/2017.
  */
 
-public class TopNews {
+public class News {
 
     @SerializedName("status")
     public String status;
